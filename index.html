@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Birdy In The Cloud</title>
+    <meta name="description" content="Hello, World! • A-Frame">
+    <script src="./assets/scripts/dist/md5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="./assets/scripts/dist/wtf_wikipedia.min.js"></script>
+
+    <script src="./assets/scripts/dist/aframe.min.js"></script>
+    <script src="./assets/scripts/dist/aframe-bmfont-text-component.min.js"></script>
+    <script src="./assets/scripts/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://rawgit.com/ngokevin/aframe-layout-component/master/dist/aframe-layout-component.min.js"></script>
+      <script src="https://rawgit.com/ngokevin/aframe-look-at-component/master/dist/aframe-look-at-component.min.js"></script>
+
+    <script src="./assets/scripts/clicking.js"></script>
+    <script src="./assets/scripts/wikiHelper.js"></script>
+
+</head>
+
+<body>
+    <!--TODO: Take a look at making fog "roll-in" maybe animation? -->
+    <a-scene>
+
+        <!--The user's "body" this allows us to place objects in a 3d sphere around the user and maintain their presence"-->
+        <a-entity id="user.body" wasd-controls>
+            <!--Buttons centered around the user
+                Might currently placed in static location, consider 
+                placing them dynamically when a user looks down-->
+
+            <a-entity id="user.buttons">
+                
+                <a-entity id="user.button.centerButton" position = "-0.02 0.05 2.03">
+                  <a-plane  id="user.button.centerButton.model" class="clickable123" color="tomato" height="1" width="3" rotation="-45 180 0">
+                      <a-entity position="-0.5 0 0.01" bmfont-text="text: Hello world \n this hsould be a new line"></a-entity>
+                  </a-plane>
+                </a-entity>
+                
+            </a-entity>
+
+            <!--The user's camera
+        Handle UI Components and shit in here -->
+            <a-entity id="user.camera" camerasensor camera="userHeight: 1.6" look-controls>
+
+                <!--TODO: Make the selection animation not shit -->
+                <a-entity id="user.reticle">
+                    <a-entity raycaster="objects: .clickable123" cursor="fuse: true; fuseTimeout: 1000;" visible="false" scale="0.01 0.01 0.01"
+                        position="0 0 -1" geometry="primitive: ring" material="color: black; shader: flat">
+
+                        <a-animation begin="cursor-fusing" easing="ease-in" attribute="scale" fill="forwards" from="0.001 0.001 0.001" to="0.01 0.01 0.01"
+                            dur="1000"></a-animation>
+
+                        <a-animation begin="cursor-fusing" easing="ease-in" attribute="visible" from="false" to="true" dur="1000"></a-animation>
+
+                        <a-animation begin="click" easing="ease-in" attribute="visible" from="true" to="false" dur="1000"></a-animation>
+                    </a-entity>
+
+                    </a-ring>
+
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+        <a-entity id="dimension.start">
+            <a-entity position="0 0 0" particle-system="preset: dust; particleCount: 250"></a-entity>
+
+            <a-entity wikiLink id="wikiData" position = "-7.5 -5 -5" layout="type: box; columns: 5; margin: 3.5;">
+                <a-entity wikiLink class="cardLads" id="card0" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card0Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card1" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card1Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card2" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card2Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card3" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card3Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card4" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card4Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card5" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card5Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card6" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card6Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card7" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card7Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card8" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card8Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card9" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card9Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card10" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card10Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card11" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card11Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card12" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card12Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card13" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card13Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card14" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card14Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card15" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card15Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card16" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card16Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card17" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card17Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card18" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card18Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card19" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card19Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card20" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card20Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card21" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card21Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card22" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card22Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card23" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card23Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+                <a-entity wikiLink class="cardLads" id="card24" geometry="primitive: box; depth:0.001;width:2.5;height:2.5" class="clickable123">
+                    <a-entity id="card24Text"class="clickable123" position="-2.5 0 0.01" wikiLink bmfont-text="align:center; text: investinbitcoin;"></a-entity>        
+                </a-entity>
+
+
+            </a-entity>
+
+
+
+
+
+            <a-sky color="#001848" material="color:#ECECEC;shader:flat" geometry="primitive:sphere;radius:5000;segmentsWidth:64;segmentsHeight:20"
+                scale="-1 1 1"></a-sky>
+
+        </a-entity>
+    </a-scene>
+</body>
+    <script src="./assets/scripts/main.js"></script>
+
+
+
+</html>
