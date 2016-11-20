@@ -150,6 +150,8 @@ var init = function(){
         console.log("Clicked!");
         queryWikipediaId(this.pageid);
     })
+    queryWikipediaArticle("The Ohio State University");
+    
 }
 }
 
