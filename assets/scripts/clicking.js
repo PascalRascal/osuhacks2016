@@ -23,14 +23,6 @@ AFRAME.registerComponent('memekingprime', {
 });
 
 AFRAME.registerComponent('camerasensor', {
-  init: function () {
-    var COLORS = ['red', 'green', 'blue'];
-    this.el.addEventListener('click', function () {
-      var randomIndex = Math.floor(Math.random() * COLORS.length);
-      this.setAttribute('material', 'color', COLORS[randomIndex]);
-      console.log('I was clicked!');
-    });
-  },
   rotationData: {},
   firstDown: false,
   timeOut: 1500,

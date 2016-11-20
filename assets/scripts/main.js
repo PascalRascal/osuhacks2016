@@ -47,28 +47,40 @@ var getWikiPageLinks = function (wikiPage) {
 var getRandomWikipediaArticle = function () {
     var randomURL = "https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&generator=random&grnnamespace=0&prop=revisions|images&rvprop=content&grnlimit=2";
     $.getJSON(randomURL, function (data) {
+        console.log(data);
         var pages = data.query.pages;
         var randomEntry = pages[Object.keys(pages)[0]];
-        //console.log(randomEntry);
-        var latestRevision = randomEntry.revisions[0];
-        //console.log(latestRevision['*']);
-        var wikiText = latestRevision['*'];
-        parseWikiArticle(wikiText);
+        console.log(randomEntry.linksHere);
+        getRandomLinks(randomEntry)
+    });
+}
+///w/api.php?action=query&format=json&prop=linkshere&pageids=1621554&lhnamespace=0&lhshow=!redirect&lhlimit=max
+var queryWikipediaId = function (Id) {
+    
+    var queryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=linkshere&pageids=" + Id + "&lhnamespace=0&lhshow=!redirect&lhlimit=max";
+    $.getJSON(queryURL, function (data) {
+        var pages = data.query.pages;
+        console.log(pages);
+        var randomEntry = pages[Object.keys(pages)[0]];
+        var links = randomEntry.linkshere;
+        //console.log(links);
+        getRandomLinks(links, 25);
+        
     });
 }
 
 var queryWikipediaArticle = function (title) {
     title = title.split(" ").join("+");
     console.log(title);
-    var queryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=revisions&titles=" + title + "&formatversion=1&rvprop=content";
+    var queryURL = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=linkshere&titles=" + title + "&lhnamespace=0&lhshow=!redirect&lhlimit=max";
     $.getJSON(queryURL, function (data) {
         var pages = data.query.pages;
+        console.log(pages);
         var randomEntry = pages[Object.keys(pages)[0]];
-        //console.log(randomEntry);
-        var latestRevision = randomEntry.revisions[0];
-        //console.log(latestRevision['*']);
-        var wikiText = latestRevision['*'];
-        parseWikiArticle(wikiText);
+        var links = randomEntry.linkshere;
+        //console.log(links);
+        getRandomLinks(links, 25);
+        
     });
 }
 
@@ -85,7 +97,6 @@ worker.addEventListener('message', function (e) {
     var mapSize = textMap.size;
     for(var i = 0; i < mapSize; i++){
         var item = entriesInMap.next();
-        createSection(item);
     }
 
 }, false);
@@ -94,14 +105,57 @@ var parseWikiArticle = function (content) {
     worker.postMessage({ 'cmd': 'parseWikiArticle', 'content': content });
 }
 
-var createSection = function(item){
-    var sectionTitle = item.value[0];
-    var sectionStringsArray = item.value[1];
-    console.log(item.value[1]);
-    var completeString = "";
-    for(var i = 0; i < sectionStringsArray.length; i++){
-        completeString = completeString + " " + sectionStringsArray[i].text;
+function getRandomLinks(links, numberOfLinks){
+    var randomLinks = [];
+    for(var i = 0; i < numberOfLinks; i++){
+        var randomIndex = Math.floor((Math.random() * links.length));
+        randomLinks.push(links[randomIndex]);
     }
-    console.log(completeString);
+    console.log(randomLinks);
+    drawTitles(randomLinks);
+    return randomLinks;
+    
+}
 
+
+
+AFRAME.registerComponent('wikiLink', {
+    init: function(){
+        console.log("initiated u fuck");
+        this.el.addEventListener('click', function(){
+            console.log("Get on my level hoe!");
+            console.log(this.el.classlist);
+        })
+    }
+})
+
+var count = 0;
+var drawTitles = function(randomLinks){
+    for(var i = 0; i < randomLinks.length; i++){
+        var linkNode = document.getElementById("card" + i);
+        var linkTextId = "card" + i + "Text";
+        var linkTextNode = document.getElementById(linkTextId);
+        linkNode.pageid = randomLinks[i].pageid
+
+
+         AFRAME.utils.entity.setComponentProperty(linkTextNode, 'bmfont-text', {text: randomLinks[i].title, align: "center"});
+    }
+}
+
+var init = function(){
+    for(var i = 0; i < 25; i++){
+    var item = document.getElementById("card" + i);
+    item.pageid = 0;
+    item.addEventListener("click", function(){
+        console.log("Clicked!");
+        queryWikipediaId(this.pageid);
+    })
+}
+}
+
+var scene = document.querySelector('a-scene');
+if (scene.hasLoaded) {
+  init();
+} else {
+  scene.addEventListener('loaded', init);
 }
